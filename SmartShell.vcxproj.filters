@@ -27,6 +27,12 @@
     <ClInclude Include="Processer.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="make.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Apis.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -41,8 +47,8 @@
     <ClCompile Include="Processer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <ClCompile Include="Apis.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

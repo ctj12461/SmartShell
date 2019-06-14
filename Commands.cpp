@@ -3,11 +3,14 @@
 
 using namespace std;
 
-void CommandsTree::exec(std::vector<std::string>& args, size_t index){
-    for (pair<string, std::shared_ptr<ICommands>> i : SubCommands) {
-        if (index < args.size() && i.first == args[index]) {
-            i.second->exec(args, index + 1);
-            break;
+ExecResult CommandsTree::exec(std::vector<std::string>& args, size_t index){
+    if (index < args.size()) {
+        while(true) {
+            auto i = SubCommands.find(args[index]);
+            if (i != SubCommands.end()) {
+                return i->second->exec(args, index + 1);
+            }
+            index++;
         }
     }
 }
@@ -39,13 +42,13 @@ Task::Task(FunctionType func) :Function(func) {
 
 }
 
-void Task::exec(std::vector<std::string>& args, size_t index){
+ExecResult Task::exec(std::vector<std::string>& args, size_t index){
     vector<string>::iterator i;
     if (index < args.size()) {
         vector<string> rawargs;
         for (size_t i = index; i < args.size(); i++) {
             rawargs.push_back(args[i]);
         }
-        Function(rawargs);
+        return Function(rawargs);
     }
 }

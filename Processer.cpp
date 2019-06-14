@@ -7,7 +7,6 @@ Processer::Processer()
 {
 }
 
-
 Processer::~Processer()
 {
 }

@@ -11,3 +11,11 @@ std::pair<std::string, std::shared_ptr<CommandsTree>> makeCommandsTree(std::stri
     using namespace std;
     return make_pair(name, make_shared<CommandsTree>(cmds...));
 }
+
+inline ExecResult done() {
+    return ExecResult(ExecResult::SuccessfulCode);
+}
+
+inline ExecResult error() {
+    return ExecResult(ExecResult::DefaultErrorCode);
+}

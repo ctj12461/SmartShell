@@ -3,15 +3,13 @@
 
 using namespace std;
 
-ExecResult CommandsTree::exec(std::vector<std::string>& args, size_t index){
-    if (index < args.size()) {
-        while(true) {
-            auto i = SubCommands.find(args[index]);
-            if (i != SubCommands.end()) {
-                return i->second->exec(args, index + 1);
-            }
-            index++;
+ExecResult CommandsTree::exec(std::vector<std::string>& args, size_t index) {
+    while (index < args.size()) {
+        auto i = SubCommands.find(args[index]);
+        if (i != SubCommands.end()) {
+            return i->second->exec(args, index + 1);
         }
+        index++;
     }
 }
 

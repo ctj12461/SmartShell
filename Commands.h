@@ -56,6 +56,8 @@ public:
     ExecResult(int code) :Code(code) {}
     bool successful() { return Code == 0; }
     int code() { return Code; }
+    static const int SuccessfulCode = 0;
+    static const int DefaultErrorCode = -1;
 private:
     bool Code;
 };

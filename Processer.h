@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <sstream>
+#include <istream>
 #include <string>
 
 class Processer
@@ -10,6 +11,7 @@ public:
     Processer();
     ~Processer();
 
-    std::vector<std::string> split(string str, string delim);
+    std::string read(std::istream& is);
+    std::vector<std::string> split(std::string str, std::string delim);
 };
 

@@ -11,16 +11,22 @@ Processer::~Processer()
 {
 }
 
+std::string Processer::read(std::istream & is){
+    string str;
+    getline(is, str);
+    return str;
+}
+
 vector<string> Processer::split(string str, string delim) {
     vector<string> arr;
     string tem;
-    for (char i : str) {
+    for (char& i : str) {
         if (delim.find(i) != -1) {
-            i = ' ';
+            i = '\a';
         }
     }
     stringstream ss(str);
-    char del = ' ';
+    char del = '\a';
     while (getline(ss, tem, del)) {
         if (tem != "") {
             arr.push_back(tem);

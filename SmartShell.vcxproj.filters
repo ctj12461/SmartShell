@@ -30,7 +30,10 @@
     <ClInclude Include="make.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Apis.h">
+    <ClInclude Include="Commons.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Extension.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,7 +50,10 @@
     <ClCompile Include="Processer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Apis.cpp">
+    <ClCompile Include="Extension.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Commons.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -36,7 +36,7 @@ void CommandsTree::insert(std::string name, FunctionType func){
     }
 }
 
-Task::Task(FunctionType func) :Function(func) {
+Task::Task(FunctionType func) :Func(func) {
 
 }
 
@@ -47,6 +47,10 @@ ExecResult Task::exec(std::vector<std::string>& args, size_t index){
         for (size_t i = index; i < args.size(); i++) {
             rawargs.push_back(args[i]);
         }
-        return Function(rawargs);
+        return Func(rawargs);
     }
+}
+
+ExecResult ExtendedTask::exec(std::vector<std::string>& args, size_t index) {
+    return done();
 }

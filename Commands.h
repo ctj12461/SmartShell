@@ -8,13 +8,13 @@
 #include <algorithm>
 #include <memory>
 
+#include "Commons.hpp"
+#include "Extension.h"
+
 class ICommands;
 class CommandsTree;
 class Task;
 class ExecResult;
-
-using ArgumentsType = std::vector<std::string>;
-using FunctionType = std::function<ExecResult(ArgumentsType)>;
 
 class ICommands
 {
@@ -41,25 +41,23 @@ private:
 class Task : public ICommands
 {
 public:
-    
     Task(FunctionType func);
     Task() {};
 
     ExecResult exec(std::vector<std::string>& args, size_t index) override;
 private:
-    FunctionType Function;
+    FunctionType Func;
 };
 
-class ExecResult
+class ExtendedTask : public ICommands
 {
 public:
-    ExecResult(int code) :Code(code) {}
-    bool successful() { return Code == 0; }
-    int code() { return Code; }
-    static const int SuccessfulCode = 0;
-    static const int DefaultErrorCode = -1;
+    ExtendedTask(std::shared_ptr<Extension> extask) : ExTask(extask) {};
+    ~ExtendedTask() {};
+
+    ExecResult exec(std::vector<std::string>& args, size_t index) override;
 private:
-    bool Code;
+    std::shared_ptr<Extension> ExTask;
 };
 
 template<typename ...Commands>

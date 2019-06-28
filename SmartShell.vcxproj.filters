@@ -30,10 +30,10 @@
     <ClInclude Include="make.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Commons.hpp">
+    <ClInclude Include="Extension.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Extension.h">
+    <ClInclude Include="Commons.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-ExecResult CommandsTree::exec(std::vector<std::string>& args, size_t index) {
+ExecResult CommandsTree::exec(const ArgumentsType& args, size_t index) {
     while (index < args.size()) {
         auto i = SubCommands.find(args[index]);
         if (i != SubCommands.end()) {
@@ -11,6 +11,7 @@ ExecResult CommandsTree::exec(std::vector<std::string>& args, size_t index) {
         }
         index++;
     }
+    return commandError();
 }
 
 void CommandsTree::insert(std::string name, std::shared_ptr<CommandsTree> subcmd){
@@ -36,21 +37,49 @@ void CommandsTree::insert(std::string name, FunctionType func){
     }
 }
 
+void CommandsTree::load(const vector<std::string>& path, size_t index, shared_ptr<Extension> extension) {
+    if (index < path.size()) {
+        auto i = SubCommands.find(path[index]);
+        if (i != SubCommands.end()) {
+            i->second->load(path, index + 1, extension);
+        } else {
+            SubCommands[path[index]] = dynamic_pointer_cast<ICommands>(make_shared<CommandsTree>());
+            SubCommands[path[index]]->load(path, index + 1, extension);
+        }
+    }
+    if (index == path.size() - 1) {
+        SubCommands[path[index]].reset();
+        SubCommands[path[index]] = dynamic_pointer_cast<ICommands>(make_shared<ExtendedTask>(extension));
+    }
+}
+
 Task::Task(FunctionType func) :Func(func) {
 
 }
 
-ExecResult Task::exec(std::vector<std::string>& args, size_t index){
+ExecResult Task::exec(const ArgumentsType& args, size_t index){
+    vector<string> rawargs;
+    vector<string>::iterator i;
+    if (index < args.size()) {
+        copy(args.begin()+=index, args.end(), back_inserter(rawargs));
+        return Func(rawargs);
+    } else if (index == args.size()) {
+        return Func(rawargs);
+    } else {
+        return argumentError();
+    }
+}
+
+ExecResult ExtendedTask::exec(const ArgumentsType& args, size_t index) {
     vector<string>::iterator i;
     if (index < args.size()) {
         vector<string> rawargs;
         for (size_t i = index; i < args.size(); i++) {
             rawargs.push_back(args[i]);
         }
-        return Func(rawargs);
+        return ExTask->exec(rawargs);
+    } else {
+        return argumentError();
     }
-}
-
-ExecResult ExtendedTask::exec(std::vector<std::string>& args, size_t index) {
-    return done();
+    
 }

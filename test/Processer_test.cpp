@@ -5,6 +5,7 @@
 #include "Commands.h"
 #include "Processer.h"
 #include "make.hpp"
+#include "Extension.h"
 
 using namespace std;
 
@@ -17,41 +18,41 @@ int main(){
     CommandsTree tree(
         makeCommandsTree("tree1",
             makeTask("cmd1", [&](ArgumentsType args) {
-        cout << "Tree1 - Command1 ";
-        output(args);
-        cout << endl;
-        return done();
-    }),
+                cout << "Tree1 - Command1 ";
+                output(args);
+                cout << endl;
+                return done();
+            }),
             makeCommandsTree("tree2",
                 makeTask("cmd1", [&](ArgumentsType args) {
-        cout << "Tree1 - Tree2 - Command1 ";
-        output(args);
-        cout << endl;
-        return done();
-    }),
+                    cout << "Tree1 - Tree2 - Command1 ";
+                    output(args);
+                    cout << endl;
+                    return done();
+                }),
                 makeTask("cmd2", [&](ArgumentsType args) {
-        cout << "Tree1 - Tree2 - Command2 ";
-        output(args);
-        cout << endl;
-        return done();
-    })
-        )
+                    cout << "Tree1 - Tree2 - Command2 ";
+                    output(args);
+                    cout << endl;
+                    return done();
+                })
+            )
         ),
         makeCommandsTree("tree2",
             makeTask("cmd1", [&](ArgumentsType args) {
-        cout << "Tree2 - Command1 ";
-        output(args);
-        cout << endl;
-        return done();
-    }),
+                cout << "Tree2 - Command1 ";
+                output(args);
+                cout << endl;
+                return done();
+            }),
             makeTask("cmd2", [&](ArgumentsType args) {
-        cout << "Tree2 - Command2 ";
-        output(args);
-        cout << endl;
-        return done();
-    })
+                cout << "Tree2 - Command2 ";
+                output(args);
+                cout << endl;
+                return done();
+            })
         )
-        );
+    );
 
     // Get commands from a string
     string args1 = "tree1,cmd1,Hello-World-1st";

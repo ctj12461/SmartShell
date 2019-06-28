@@ -148,7 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Commands.h" />
-    <ClInclude Include="Commons.hpp" />
+    <ClInclude Include="Commons.h" />
     <ClInclude Include="Extension.h" />
     <ClInclude Include="make.hpp" />
     <ClInclude Include="Processer.h" />

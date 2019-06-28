@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <memory>
 
-#include "Commons.hpp"
+#include "Commons.h"
 #include "Extension.h"
 
 class ICommands;
@@ -21,22 +21,32 @@ class ICommands
 public:
     virtual ~ICommands() {};
     
-    virtual ExecResult exec(std::vector<std::string>& args, size_t index) = 0;
+    virtual ExecResult exec(const ArgumentsType&, std::size_t index) = 0;
+    virtual void load(const std::vector<std::string>& path, std::size_t index, std::shared_ptr<Extension> extension) 
+        = 0;
 };
 
 class CommandsTree : public ICommands
 {
 public:
-    template<typename ...Commands> CommandsTree(Commands... cmds);
+    template<typename ...Commands> CommandsTree(Commands... cmds) {
+        int a[] = { (insert(cmds.first, cmds.second),0)... };
+    }
+    template<> CommandsTree() {};
+
     ~CommandsTree() {};
 
-    ExecResult exec(std::vector<std::string>& args, size_t index) override;
+    ExecResult exec(const ArgumentsType& args, size_t index) override;
+    void load(const std::vector<std::string>& path, std::size_t index, std::shared_ptr<Extension> extension) override;
+    
     void insert(std::string name, std::shared_ptr<CommandsTree> subcmd);
     void insert(std::string name, std::shared_ptr<Task> subcmd);
     void insert(std::string name, FunctionType func);
+    
 private:
     std::map<std::string, std::shared_ptr<ICommands>> SubCommands;
 };
+
 
 class Task : public ICommands
 {
@@ -44,10 +54,12 @@ public:
     Task(FunctionType func);
     Task() {};
 
-    ExecResult exec(std::vector<std::string>& args, size_t index) override;
+    ExecResult exec(const ArgumentsType& args, size_t index) override;
+    void load(const std::vector<std::string>& path, std::size_t index, std::shared_ptr<Extension> extension) override {};
 private:
     FunctionType Func;
 };
+
 
 class ExtendedTask : public ICommands
 {
@@ -55,13 +67,8 @@ public:
     ExtendedTask(std::shared_ptr<Extension> extask) : ExTask(extask) {};
     ~ExtendedTask() {};
 
-    ExecResult exec(std::vector<std::string>& args, size_t index) override;
+    ExecResult exec(const ArgumentsType& args, size_t index) override;
+    void load(const std::vector<std::string>& path, std::size_t index, std::shared_ptr<Extension> extension) override {};
 private:
     std::shared_ptr<Extension> ExTask;
 };
-
-template<typename ...Commands>
-inline CommandsTree::CommandsTree(Commands ...cmds){
-    int a[] = { (insert(cmds.first, cmds.second),0)... };
-}
-
